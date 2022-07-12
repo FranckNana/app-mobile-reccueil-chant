@@ -1,14 +1,14 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class Partition {
-  String id;
   String date;
   String name;
   String url;
 
-  Partition({this.id='', this.date='', required this.name, required this.url});
+  Partition({this.date='', required this.name, required this.url});
 
   Map<String, dynamic> toJson(){
     return {
-      'id': id,
       'date': date,
       'name': name,
       'url' : url,
@@ -16,6 +16,7 @@ class Partition {
   }
 
   factory Partition.fromJson(Map<String, dynamic> json){
-    return Partition(id: json['id'], date: json['date'], name: json['name'], url: json['url']);
+    return Partition(date: json['date'], name: json['name'], url: json['url']);
   }
+
 }

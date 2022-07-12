@@ -56,7 +56,7 @@ Widget _songLine({required String id, required String title, Widget? screen}){
       ),
       minVerticalPadding: 0,
     ),
-    onPressed: (){getPartition();},
+    onPressed: (){},
   );
 }
 

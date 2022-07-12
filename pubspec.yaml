@@ -35,6 +35,7 @@ dependencies:
   firebase_storage: ^10.2.5
   firebase_analytics: ^9.0.5
   firebase_database: ^9.0.7
+  easy_pdf_viewer: ^1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -83,6 +84,7 @@ flutter:
     - images/envoi.jpg
     - images/divers.jpg
     - images/programme.jpg
+    - images/pdf.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

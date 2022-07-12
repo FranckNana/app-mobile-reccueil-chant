@@ -29,16 +29,16 @@ class MenuBottom extends StatelessWidget {
       onTap: (int index) {
         switch (index) {
           case 0:
-            Get.off(HomeScreen());
+            Get.to(HomeScreen());
             break;
           case 1:
-            Get.off(SearchScreen());
+            Get.to(SearchScreen());
             break;
           case 2:
-            Get.off(PartitionScreen());
+            Get.to(PartitionScreen());
             break;
           case 3:
-            Get.off(InformationScreen());
+            Get.to(InformationScreen());
             break;
         }
       },
