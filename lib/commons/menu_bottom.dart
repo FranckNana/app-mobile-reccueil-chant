@@ -2,6 +2,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:song_app/repository/song.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';
@@ -29,16 +30,16 @@ class MenuBottom extends StatelessWidget {
       onTap: (int index) {
         switch (index) {
           case 0:
-            Get.to(HomeScreen());
+            Get.off(HomeScreen());
             break;
           case 1:
-            Get.to(SearchScreen());
+            Get.off(SearchScreen());
             break;
           case 2:
-            Get.to(PartitionScreen());
+            Get.off(PartitionScreen());
             break;
           case 3:
-            Get.to(InformationScreen());
+            Get.off(InformationScreen());
             break;
         }
       },

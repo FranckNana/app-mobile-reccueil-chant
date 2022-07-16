@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/song_list_cathegorie_screen.dart';
+import 'package:song_app/repository/song.repos.dart';
+import 'package:song_app/screens/prog_screen.dart';
 
 class CardViewScreen extends StatelessWidget {
   final Map<String, String> map;
@@ -36,10 +38,14 @@ List<Widget> _createCardView(Map<String, String> map){
       onTap: () {
         if(imageUrl.contains("divers.jpg")){
           categorie="Divers";
+          Get.to(SongListCathegorieScreen(categorie: categorie)); 
         }else if(imageUrl.contains("programme.jpg")){
           categorie="Programme";
+          Get.to(ProgrammeScreen()); 
+        }else{
+          Get.to(SongListCathegorieScreen(categorie: categorie));
         }
-        Get.to(SongListCathegorieScreen(categorie: categorie)); 
+        
       },
       child: Card(
         elevation: 5,

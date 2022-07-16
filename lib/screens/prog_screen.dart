@@ -1,27 +1,29 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/menu_bottom.dart';
-import 'package:song_app/model/infos.model.dart';
-import 'package:song_app/repository/infos.repos.dart';
+import 'package:song_app/commons/pdfview_screen.dart';
+import 'package:song_app/model/prog.model.dart';
+import 'package:song_app/repository/prog.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
 
-class InformationScreen extends StatefulWidget {
-  const InformationScreen({ Key? key }) : super(key: key);
+class ProgrammeScreen extends StatefulWidget {
+  const ProgrammeScreen({ Key? key }) : super(key: key);
 
   @override
-  State<InformationScreen> createState() => _InformationScreenState();
+  State<ProgrammeScreen> createState() => _ProgrammeScreen();
 }
 
-class _InformationScreenState extends State<InformationScreen> {
-  late Future<List<Infos>> _infos;
+class _ProgrammeScreen extends State<ProgrammeScreen> {
 
+  late Future<List<Programme>> _programme;
+  
   @override
   initState() {
     super.initState();
-    InfosData i = InfosData();
-    _infos = i.getAllInfos();
+    ProgData p = ProgData();
+    _programme = p.getProgramme();
   }
 
   @override
@@ -30,15 +32,15 @@ class _InformationScreenState extends State<InformationScreen> {
     final sizeY = MediaQuery.of(context).size.height;
 
     return WillPopScope(
+
       onWillPop: () async { 
         Get.off(HomeScreen());
         return true;
       },
 
       child: Scaffold(
-         appBar: AppBar(
-          title: const Text('Informations'),
-          automaticallyImplyLeading: false,
+        appBar: AppBar(
+          title: const Text('Feuilles de chants'),
         ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
@@ -48,14 +50,14 @@ class _InformationScreenState extends State<InformationScreen> {
             ]
           ),
         ),
-        bottomNavigationBar: MenuBottom(selectedPage:3),
+        bottomNavigationBar: MenuBottom(selectedPage:0),
       ),
     );
   }
 
   FutureBuilder<dynamic> futureBuilder(double sizeX, double sizeY) {
     return FutureBuilder<dynamic>(
-        future: _infos,
+        future: _programme,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -72,11 +74,11 @@ class _InformationScreenState extends State<InformationScreen> {
               return Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
                 width: sizeX,
-                height: sizeY/2,
+                height: sizeY*5/6,
                 child: GridView.count(
-                  scrollDirection: Axis.horizontal,
-                  crossAxisCount: 1,
-                  children: _InfosContent(infos: data),
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
+                  children: _createCardView(programmes: data),
                   mainAxisSpacing: 5.0,
                   crossAxisSpacing: 5.0,
                 ),
@@ -101,47 +103,52 @@ class _InformationScreenState extends State<InformationScreen> {
       );
   }
 
-  List<Widget> _InfosContent({required List<Infos> infos}){
-    List<Widget> infosToSend = [];
-    Widget inf;
 
-    for (var info in infos) {
-      inf = InkWell(
-        child: Card (
-          color: Color.fromARGB(255, 222, 240, 250),
-          elevation: 10,
-          clipBehavior: Clip.antiAlias,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.info_sharp),
-                  title: Text(
-                    info.title,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    info.content,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6),
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ]
+  List<Widget> _createCardView({required List<Programme> programmes}) {
+    List<Widget> programmeToSend = [];
+
+    Widget programme;
+    programmes.forEach((p) {  
+      programme = InkWell(
+        child: Card(
+          elevation: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:AssetImage('images/pdf.png'),
+                fit: BoxFit.fitHeight, 
+              ),
+              borderRadius: BorderRadius.circular(8.0),
             ),
-          )
-        )
+            child: SizedBox(
+              child: Stack(
+                alignment: Alignment.bottomLeft,
+                children: [
+                  Text(
+                    p.name,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                  ),
+                ],
+              )
+            ),
+          ),
+        ),
+        onTap: () {
+          Get.to(PdfViewScreen(link:p.url, titre: p.name,));
+        },
       );
-      infosToSend.add(inf);
-    }
-    
-    return infosToSend; 
-
+      programmeToSend.add(programme);
+    });
+    return programmeToSend;
   }
+
 }
+
+
+

@@ -2,52 +2,101 @@
 
 import 'package:flutter/material.dart';
 import 'package:song_app/commons/menu_bottom.dart';
-import 'package:song_app/repository/partition.repos.dart';
+import 'package:song_app/model/song.model.dart';
+import 'package:song_app/repository/song.repos.dart';
 
-class SongListCathegorieScreen extends StatelessWidget {
+class SongListCathegorieScreen extends StatefulWidget {
   final String categorie;
   const SongListCathegorieScreen({this.categorie="", Key? key }) : super(key: key);
 
   @override
+  State<SongListCathegorieScreen> createState() => _SongListCathegorieScreenState();
+}
+
+class _SongListCathegorieScreenState extends State<SongListCathegorieScreen> {
+
+  late Future<List<Song>> _songs;
+  
+  @override
+  initState() {
+    super.initState();
+    SongData s = SongData();
+    _songs = s.getSongsByType(widget.categorie);
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    Map<String, String> map = {
-      '1' : 'titre1',
-      '2' : 'titre2',
-      '3' : 'titre3',
-      '4' : 'titre4',
-      '5' : 'titre5',
-      '6' : 'titre6',
-      '7' : 'titre7',
-      '8' : 'titre8',
-      '9' : 'titre9',
-      '10' : 'titre10',
-      '11' : 'titre11',
-      '12' : 'titre12',
-      '13' : 'titre13',
-      '14' : 'titre14',
-      '15' : 'titre15'
-      };
+    final sizeX = MediaQuery.of(context).size.width;
+    final sizeY = MediaQuery.of(context).size.height;
     
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(categorie),
+          title: Text(widget.categorie),
       ),
-      body: ListView(
-        children: _createSongList(songs: map, formKey: _formKey),
-      ),
+      body: SingleChildScrollView(
+          child: Column(
+            children: [
+              searchForm(formKey: _formKey),
+              futureBuilder(sizeX, sizeY)
+            ]
+          ),
+        ),
        bottomNavigationBar: MenuBottom(),
     );
   }
-}
 
-Widget _songLine({required String id, required String title, Widget? screen}){
+
+  FutureBuilder<dynamic> futureBuilder(double sizeX, double sizeY) {
+    return FutureBuilder<dynamic>(
+        future: _songs,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Padding(
+              padding: EdgeInsets.only(top: 180.0),
+              child: Center(child: CircularProgressIndicator())
+            );
+          } 
+          else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return const Text('Error');
+            } else if (snapshot.hasData) {
+              dynamic data = snapshot.data;
+              return Column(children: _createSongList(songs: data));
+            } else {
+              return const Center(
+                child: Text(
+                  'Empty data', 
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic
+                  ),
+                ),
+              );
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        }
+      );
+  }
+
+
+  Widget _songLine({required String id, required String title, Widget? screen}){
 
   return TextButton(
     child: ListTile(
       horizontalTitleGap: 0.0,
-      leading: Text(id),
+      leading: Text(
+        id+"-",
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
       title: Text(
         title,
         style: const TextStyle(
@@ -60,13 +109,13 @@ Widget _songLine({required String id, required String title, Widget? screen}){
   );
 }
 
-List<Widget> _createSongList({required Map<String, String> songs, required GlobalKey<FormState> formKey , Widget? screen}){
-  List<Widget> listOfSong = [
-    searchForm(formKey: formKey)
-  ];
+List<Widget> _createSongList({required List<Song> songs, Widget? screen}){
+  List<Widget> listOfSong = [];
 
-  songs.forEach((id, title){
-      var songLine = _songLine(id: id, title: title);
+  var i=0;
+  songs.forEach((s){
+      i++;
+      var songLine = _songLine(id: i.toString() ,title: s.title);
       listOfSong.add(songLine);
   });
 
@@ -80,7 +129,7 @@ Widget searchForm({required GlobalKey<FormState> formKey}){
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right:8.0),
+              padding: const EdgeInsets.only(left: 20.0, right:8.0),
               child: TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Recherche',
@@ -108,3 +157,8 @@ Widget searchForm({required GlobalKey<FormState> formKey}){
       ),
     );
 }
+
+}
+
+
+

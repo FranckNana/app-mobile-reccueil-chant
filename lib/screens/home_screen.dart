@@ -12,11 +12,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Map<String, String> map = {
-      'images/entree.jpg': 'Entrée', 'images/kyrie.png': 'Kyrié',
-      'images/gloria.jpg': 'Gloria', 'images/meditation.jpg': 'Psaume',
+      'images/entree.jpg': 'Entree', 'images/kyrie.png': 'Kyrie',
+      'images/gloria.jpg': 'Gloria', 'images/meditation.jpg': 'Meditation',
       'images/acclamation.jpg': 'Acclamation', 'images/credo.png': 'Credo',
       'images/pu.png': 'PU', 'images/offertoire.jpg': 'Offertoire',
-      'images/sanctus.png': 'Sanctus', 'images/anamnese.jpg': 'Anamnèse',
+      'images/sanctus.png': 'Sanctus', 'images/anamnese.jpg': 'Anamnese',
       'images/pater.png': 'Pater', 'images/communion.png': 'Communion',
       'images/ag.jpg': 'AG', 'images/envoi.jpg': 'Envoi',
       'images/divers.jpg': '', 'images/programme.jpg': ''

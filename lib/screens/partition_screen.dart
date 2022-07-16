@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
-import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/menu_bottom.dart';
+import 'package:song_app/commons/pdfview_screen.dart';
 import 'package:song_app/model/partition.model.dart';
 import 'package:song_app/repository/partition.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
@@ -65,7 +65,10 @@ class _PartitionScreenState extends State<PartitionScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Padding(
+              padding: EdgeInsets.only(top: 180.0),
+              child: Center(child: CircularProgressIndicator())
+            );
           } 
           else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
@@ -126,7 +129,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
                 alignment: Alignment.bottomLeft,
                 children: [
                   Text(
-                    p.name.substring(13),
+                    p.name,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Colors.white,
@@ -140,12 +143,8 @@ class _PartitionScreenState extends State<PartitionScreen> {
             ),
           ),
         ),
-        onTap: () async {
-          print("here "+p.url);
-          PDFDocument document = await PDFDocument.fromURL(p.url);
-          PDFViewer(
-            document: document
-          );
+        onTap: () {
+          Get.to(PdfViewScreen(link:p.url, titre: p.name,));
         },
       );
       partitionsToSend.add(partition);
@@ -161,7 +160,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right:8.0),
+              padding: const EdgeInsets.only(left: 20.0, right:8.0),
               child: TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Recherche',

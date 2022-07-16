@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:song_app/commons/pdfview_screen.dart';
 import 'package:song_app/commons/song_list_cathegorie_screen.dart';
 import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';
+import 'package:song_app/screens/prog_screen.dart';
 import 'package:song_app/screens/search_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -55,6 +57,14 @@ class AppRoutes {
     GetPage(
       name: AppLinks.INFOS,
       page: () => InformationScreen()
+    ),
+    GetPage(
+      name: AppLinks.PDFVIEW,
+      page: () => PdfViewScreen(link: '', titre: '',)
+    ),
+    GetPage(
+      name: AppLinks.PROGRAMME,
+      page: () => ProgrammeScreen()
     )
   ];
 }
@@ -65,5 +75,7 @@ class AppLinks {
   static const String SONGLISTVIEW = "/songListView";
   static const String PARTITIONS = "/partitiions";
   static const String INFOS = "/informations";
+  static const String PDFVIEW = "/pdfview";
+  static const String PROGRAMME = "/programme";
 }
 
