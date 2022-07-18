@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors, must_be_immutable, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -2,7 +2,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:song_app/repository/song.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';

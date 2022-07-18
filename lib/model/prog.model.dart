@@ -1,3 +1,4 @@
+// ignore_for_file: annotate_overrides, overridden_fields
 
 import 'package:song_app/model/partition.model.dart';
 

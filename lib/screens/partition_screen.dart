@@ -18,6 +18,7 @@ class PartitionScreen extends StatefulWidget {
 class _PartitionScreenState extends State<PartitionScreen> {
 
   late Future<List<Partition>> _partitions;
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   @override
   initState() {
@@ -30,8 +31,6 @@ class _PartitionScreenState extends State<PartitionScreen> {
   Widget build(BuildContext context) {
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
-
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return WillPopScope(
 
@@ -49,7 +48,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              searchForm(formKey: _formKey),
+              searchForm(context),
               futureBuilder(sizeX, sizeY)
             ]
           ),
@@ -112,7 +111,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
     List<Widget> partitionsToSend = [];
 
     Widget partition;
-    partitions.forEach((p) {  
+    for (var p in partitions) {  
       partition = InkWell(
         child: Card(
           elevation: 0,
@@ -148,43 +147,49 @@ class _PartitionScreenState extends State<PartitionScreen> {
         },
       );
       partitionsToSend.add(partition);
-    });
+    }
     return partitionsToSend;
   }
 
 
-  Widget searchForm({required GlobalKey<FormState> formKey}){
-  return Form(
-      key: formKey,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, right:8.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Recherche',
+  Widget searchForm(BuildContext context){
+    return Card(
+      elevation: 10,
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, right:8.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Recherche',
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Ecrivez quelque chose...';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Ecrivez quelque chose...';
-                  }
-                  return null;
-                },
               ),
             ),
-          ),
-          TextButton(
-            child: const Icon(Icons.search_rounded),
-            onPressed: () {
-              // Validate will return true if the form is valid, or false if
-              // the form is invalid.
-              if (formKey.currentState!.validate()) {
-                // Process data.
+            TextButton(
+              child: const Icon(Icons.search_rounded),
+              onPressed: () {
+                // Validate will return true if the form is valid, or false if
+                // the form is invalid.
+                if (_formKey.currentState!.validate()) {
+                  // Process data.
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Recherche en cours...')),
+                  );
+                }
               }
-            }
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

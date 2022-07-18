@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,10 +42,13 @@ class _InformationScreenState extends State<InformationScreen> {
         ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              futureBuilder(sizeX, sizeY)
-            ]
+          child: Padding(
+            padding: const EdgeInsets.only(top: 90.0),
+            child: Column(
+              children: [
+                futureBuilder(sizeX, sizeY)
+              ]
+            ),
           ),
         ),
         bottomNavigationBar: MenuBottom(selectedPage:3),
@@ -126,7 +129,7 @@ class _InformationScreenState extends State<InformationScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    info.content,
+                    info.content, textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.black.withOpacity(0.6),
                       fontSize: 16,
