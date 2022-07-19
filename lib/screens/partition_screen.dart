@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/menu_bottom.dart';
 import 'package:song_app/commons/pdfview_screen.dart';
+import 'package:song_app/commons/search_form.dart';
 import 'package:song_app/model/partition.model.dart';
 import 'package:song_app/repository/partition.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
@@ -48,7 +49,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              searchForm(context),
+              SearchForm(Parentcontext: context),
               futureBuilder(sizeX, sizeY)
             ]
           ),
@@ -61,18 +62,30 @@ class _PartitionScreenState extends State<PartitionScreen> {
   FutureBuilder<dynamic> futureBuilder(double sizeX, double sizeY) {
     return FutureBuilder<dynamic>(
         future: _partitions,
+        initialData: 'Chargement...',
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Padding(
               padding: EdgeInsets.only(top: 180.0),
-              child: Center(child: CircularProgressIndicator())
+              child: Column(
+                children: [
+                  Center(child: const CircularProgressIndicator()),
+                  Visibility(
+                    visible: snapshot.hasData,
+                    child: Text(
+                      snapshot.data,
+                      style: const TextStyle(color: Colors.black, fontSize: 24),
+                    ),
+                  )
+                ],
+              )
             );
           } 
           else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               return const Text('Error');
-            } else if (snapshot.hasData) {
+            } else if (snapshot.hasData && snapshot.data.length>0) {
               dynamic data = snapshot.data;
               return Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -87,14 +100,24 @@ class _PartitionScreenState extends State<PartitionScreen> {
                 ),
               );
             } else {
-              return Center(
-                child: const Text(
-                  'Empty data', 
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic
+              return Padding(
+                padding: EdgeInsets.only(top: 180, left: 80.0, right: 80),
+                child: Center(
+                  child: Column(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        Center(
+                          child: ListTile(
+                              leading: Icon(Icons.music_note_sharp),
+                              title: Text(
+                                "Pas de partitions",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                        ),
+                      ],
                   ),
                 ),
               );
@@ -149,49 +172,6 @@ class _PartitionScreenState extends State<PartitionScreen> {
       partitionsToSend.add(partition);
     }
     return partitionsToSend;
-  }
-
-
-  Widget searchForm(BuildContext context){
-    return Card(
-      elevation: 10,
-      child: Form(
-        key: _formKey,
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, right:8.0),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Recherche',
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Ecrivez quelque chose...';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ),
-            TextButton(
-              child: const Icon(Icons.search_rounded),
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                if (_formKey.currentState!.validate()) {
-                  // Process data.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Recherche en cours...')),
-                  );
-                }
-              }
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
 }

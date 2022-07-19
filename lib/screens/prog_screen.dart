@@ -58,18 +58,40 @@ class _ProgrammeScreen extends State<ProgrammeScreen> {
   FutureBuilder<dynamic> futureBuilder(double sizeX, double sizeY) {
     return FutureBuilder<dynamic>(
         future: _programme,
+        initialData: 'Chargement...',
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Padding(
               padding: EdgeInsets.only(top: 180.0),
-              child: Center(child: CircularProgressIndicator())
+              child: Column(
+                children: [
+                  Center(child: const CircularProgressIndicator()),
+                  Visibility(
+                    visible: snapshot.hasData,
+                    child: Text(
+                      snapshot.data,
+                      style: const TextStyle(color: Colors.black, fontSize: 24),
+                    ),
+                  )
+                ],
+              )
             );
           } 
           else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
-              return const Text('Error');
-            } else if (snapshot.hasData ) {
+              return Center(
+                child: const Text(
+                  'Error',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic
+                  ),
+                ),
+              );
+            } else if (snapshot.hasData && snapshot.data.length>0) {
               dynamic data = snapshot.data;
               return Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -84,14 +106,24 @@ class _ProgrammeScreen extends State<ProgrammeScreen> {
                 ),
               );
             } else {
-              return Center(
-                child: const Text(
-                  'Empty data', 
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic
+              return Padding(
+                padding: EdgeInsets.only(top: 180, left: 10.0, right: 10),
+                child: Center(
+                  child: Column(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        Center(
+                          child: ListTile(
+                              leading: Icon(Icons.book_sharp),
+                              title: Text(
+                                "Pas de programme pour le moment",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                        ),
+                      ],
                   ),
                 ),
               );

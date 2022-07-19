@@ -70,7 +70,7 @@ class _InformationScreenState extends State<InformationScreen> {
           else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
               return const Text('Error');
-            } else if (snapshot.hasData ) {
+            } else if (snapshot.hasData && snapshot.data.length>0) {
               dynamic data = snapshot.data;
               return Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -85,15 +85,23 @@ class _InformationScreenState extends State<InformationScreen> {
                 ),
               );
             } else {
-              return Center(
-                child: const Text(
-                  'Empty data', 
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic
-                  ),
+              return Padding(
+                padding: EdgeInsets.only(top: 150, left: 80.0, right: 80),
+                child: Column(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Center(
+                        child: ListTile(
+                            leading: Icon(Icons.info_sharp),
+                            title: Text(
+                              "Pas d\'informations",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                      ),
+                    ],
                 ),
               );
             }
@@ -104,14 +112,14 @@ class _InformationScreenState extends State<InformationScreen> {
       );
   }
 
-  List<Widget> _InfosContent({required List<Infos> infos}){
+  List<Widget> _InfosContent({required List<Infos> infos}) {
     List<Widget> infosToSend = [];
     Widget inf;
 
     for (var info in infos) {
       inf = InkWell(
         child: Card (
-          color: Color.fromARGB(255, 222, 240, 250),
+          //color: Color.fromARGB(255, 222, 240, 250),
           elevation: 10,
           clipBehavior: Clip.antiAlias,
           child: SingleChildScrollView(
@@ -147,4 +155,5 @@ class _InformationScreenState extends State<InformationScreen> {
     return infosToSend; 
 
   }
+
 }
