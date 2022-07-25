@@ -1,6 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // ignore: must_be_immutable
 class PdfViewScreen extends StatelessWidget {
@@ -14,14 +14,7 @@ class PdfViewScreen extends StatelessWidget {
       appBar: AppBar( 
         title: Text(titre),
       ),
-      body: Container(
-        child: const PDF().fromUrl(
-          link,
-          //maxAgeCacheObject: const Duration(hours: 24), 
-          placeholder: (progress) => Center(child: Text('$progress %')),
-          errorWidget: (error) => Center(child: Text(error.toString())),
-        )
-      )
+      body: SfPdfViewer.network(link)
     );
   }
 }
