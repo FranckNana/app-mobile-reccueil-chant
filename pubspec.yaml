@@ -34,7 +34,8 @@ dependencies:
   firebase_core: ^1.11.0
   firebase_storage: ^10.2.5
   firebase_database: ^9.0.7
-  syncfusion_flutter_pdfviewer: ^20.2.38-beta
+  search_page: ^2.0.0+1
+  flutter_cached_pdfview: ^0.4.1
 
 
   # The following adds the Cupertino Icons font to your application.

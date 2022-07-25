@@ -1,9 +1,9 @@
 // ignore_for_file: unused_element, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:song_app/commons/futureBuild.dart';
 import 'package:song_app/commons/menu_bottom.dart';
 import 'package:song_app/commons/search_form.dart';
+import 'package:song_app/commons/utilsMethod.dart';
 import 'package:song_app/model/song.model.dart';
 import 'package:song_app/repository/song.repos.dart';
 
@@ -18,7 +18,6 @@ class SongListCathegorieScreen extends StatefulWidget {
 class _SongListCathegorieScreenState extends State<SongListCathegorieScreen> {
 
   late Future<List<Song>> _songs;
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
   @override
   initState() {
@@ -39,7 +38,7 @@ class _SongListCathegorieScreenState extends State<SongListCathegorieScreen> {
       body: SingleChildScrollView(
           child: Column(
             children: [
-              SearchForm(Parentcontext: context),
+              SearchForm(sizeX: sizeX, sizeY: sizeY, isPartition:false, categorie: widget.categorie, parentcontext: context),
               futureBuilder(sizeX, sizeY)
             ]
           ),
@@ -76,7 +75,7 @@ class _SongListCathegorieScreenState extends State<SongListCathegorieScreen> {
               return const Text('Error');
             } else if (snapshot.hasData && snapshot.data.length>0) {
               dynamic data = snapshot.data;
-              return Column(children: _createSongList(songs: data));
+              return Column(children: Utils().createSongList(songs: data));
             } else {
               return Padding(
                 padding: EdgeInsets.only(top: 180, left: 100.0, right: 100),
@@ -106,43 +105,6 @@ class _SongListCathegorieScreenState extends State<SongListCathegorieScreen> {
 
         }
       );
-  }
-
-
-  Widget _songLine({required String id, required String title, Widget? screen}){
-
-    return TextButton(
-      child: ListTile(
-        horizontalTitleGap: 0.0,
-        leading: Text(
-          id+"-",
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        minVerticalPadding: 0,
-      ),
-      onPressed: (){},
-    );
-  }
-
-  List<Widget> _createSongList({required List<Song> songs, Widget? screen}){
-    List<Widget> listOfSong = [];
-
-    var i=0;
-    for (var s in songs) {
-        i++;
-        var songLine = _songLine(id: i.toString() ,title: s.title);
-        listOfSong.add(songLine);
-    }
-
-    return listOfSong;
   }
 
 

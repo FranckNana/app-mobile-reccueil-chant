@@ -86,7 +86,7 @@ class _InformationScreenState extends State<InformationScreen> {
               );
             } else {
               return Padding(
-                padding: EdgeInsets.only(top: 150, left: 80.0, right: 80),
+                padding: EdgeInsets.only(top: 150, left: 60.0, right: 60),
                 child: Column(
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
@@ -94,7 +94,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         child: ListTile(
                             leading: Icon(Icons.info_sharp),
                             title: Text(
-                              "Pas d\'informations",
+                              "Pas d'informations",
                               style: TextStyle(
                                 fontSize: 18,
                               ),

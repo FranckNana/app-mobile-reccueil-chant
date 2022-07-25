@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/pdfview_screen.dart';
 import 'package:song_app/commons/song_list_cathegorie_screen.dart';
+import 'package:song_app/commons/view_song.dart';
+import 'package:song_app/model/song.model.dart';
 import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';
@@ -65,6 +67,10 @@ class AppRoutes {
     GetPage(
       name: AppLinks.PROGRAMME,
       page: () => ProgrammeScreen()
+    ),
+    GetPage(
+      name: AppLinks.SONGVIEW,
+      page: () => ViewSong(song: Song(type: "", title: "", refrain: ""))
     )
   ];
 }
@@ -77,5 +83,6 @@ class AppLinks {
   static const String INFOS = "/informations";
   static const String PDFVIEW = "/pdfview";
   static const String PROGRAMME = "/programme";
+  static const String SONGVIEW = "/songview";
 }
 

@@ -107,7 +107,7 @@ class _ProgrammeScreen extends State<ProgrammeScreen> {
               );
             } else {
               return Padding(
-                padding: EdgeInsets.only(top: 180, left: 10.0, right: 10),
+                padding: EdgeInsets.only(top: 180, left: 60.0, right: 60),
                 child: Center(
                   child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -116,7 +116,7 @@ class _ProgrammeScreen extends State<ProgrammeScreen> {
                           child: ListTile(
                               leading: Icon(Icons.book_sharp),
                               title: Text(
-                                "Pas de programme pour le moment",
+                                "Pas de programme",
                                 style: TextStyle(
                                   fontSize: 18,
                                 ),

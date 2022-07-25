@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:song_app/model/song.model.dart';
@@ -21,10 +22,10 @@ class FutureBuild extends StatelessWidget {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Padding(
-              padding: EdgeInsets.only(top: 180.0),
+              padding: const EdgeInsets.only(top: 180.0),
               child: Column(
                 children: [
-                  Center(child: const CircularProgressIndicator()),
+                  const Center(child: CircularProgressIndicator()),
                   Visibility(
                     visible: snapshot.hasData,
                     child: Text(
@@ -39,11 +40,10 @@ class FutureBuild extends StatelessWidget {
             if (snapshot.hasError) {
               return const Text('Error');
             } else if (snapshot.hasData && snapshot.data.length>0) {
-              dynamic data = snapshot.data;
-              return Column(children: [const Text("TEST CENTER FUTURE BUILDER")]);
+              return Column(children: const [Text("TEST CENTER FUTURE BUILDER")]);
             } else {
               return Padding(
-                padding: EdgeInsets.only(top: 180, left: 100.0, right: 100),
+                padding: const EdgeInsets.only(top: 180, left: 100.0, right: 100),
                 child: Center(
                   child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -53,7 +53,7 @@ class FutureBuild extends StatelessWidget {
                               leading: icon,
                               title: Text(
                                 message,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                 ),
                               ),

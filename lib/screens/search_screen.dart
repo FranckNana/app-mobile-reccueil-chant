@@ -10,6 +10,7 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       
       onWillPop: () async { 
@@ -22,6 +23,7 @@ class SearchScreen extends StatelessWidget {
           title: const Text('Recherche'),
           automaticallyImplyLeading: false,
         ),
+        
         bottomNavigationBar: MenuBottom(selectedPage:1),
       ),
     );

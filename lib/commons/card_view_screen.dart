@@ -17,7 +17,7 @@ class CardViewScreen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 10),
       width: sizeX,
-      height: sizeY*5/6,
+      height: sizeY*4/5,
       child: GridView.count(
         scrollDirection: Axis.vertical,
         crossAxisCount: 2,
