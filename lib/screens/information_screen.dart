@@ -51,7 +51,7 @@ class _InformationScreenState extends State<InformationScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: MenuBottom(selectedPage:3),
+        bottomNavigationBar: MenuBottom(selectedPage:2),
       ),
     );
   }
@@ -73,15 +73,15 @@ class _InformationScreenState extends State<InformationScreen> {
             } else if (snapshot.hasData && snapshot.data.length>0) {
               dynamic data = snapshot.data;
               return Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 10),
+                margin: EdgeInsets.only(left: 30, right: 30, top: 10),
                 width: sizeX,
                 height: sizeY/2,
                 child: GridView.count(
                   scrollDirection: Axis.horizontal,
                   crossAxisCount: 1,
                   children: _InfosContent(infos: data),
-                  mainAxisSpacing: 5.0,
-                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 3.0,
+                  crossAxisSpacing: 3.0,
                 ),
               );
             } else {
@@ -118,35 +118,37 @@ class _InformationScreenState extends State<InformationScreen> {
 
     for (var info in infos) {
       inf = InkWell(
-        child: Card (
-          //color: Color.fromARGB(255, 222, 240, 250),
-          elevation: 10,
-          clipBehavior: Clip.antiAlias,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.info_sharp),
-                  title: Text(
-                    info.title,
-                    style: TextStyle(
-                      fontSize: 18,
+        child: Center(
+          child: Card (
+            //color: Color.fromARGB(255, 222, 240, 250),
+            elevation: 20,
+            clipBehavior: Clip.antiAlias,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.info_sharp),
+                    title: Text(
+                      info.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    info.content, textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6),
-                      fontSize: 16,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      info.content, textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                ),
-              ]
-            ),
-          )
+                ]
+              ),
+            )
+          ),
         )
       );
       infosToSend.add(inf);

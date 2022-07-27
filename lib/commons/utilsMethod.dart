@@ -167,15 +167,19 @@ class Utils {
     return TextButton(
       child: ListTile(
         horizontalTitleGap: 0.0,
-        leading: Text(
-          id+"-",
-          style: const TextStyle(
-            fontSize: 16,
+        leading: SizedBox(
+          height: 24,
+          child: CircleAvatar(
+            backgroundColor: Colors.blueGrey,
+            child: Icon(
+              Icons.chevron_right_rounded
+            )
           ),
         ),
         title: Text(
           song.title,
           style: const TextStyle(
+            color: Colors.blueGrey,
             fontSize: 16,
           ),
         ),

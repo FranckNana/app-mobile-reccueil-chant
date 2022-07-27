@@ -53,7 +53,7 @@ class _PartitionScreenState extends State<PartitionScreen> {
             ]
           ),
         ),
-        bottomNavigationBar: MenuBottom(selectedPage:2),
+        bottomNavigationBar: MenuBottom(selectedPage:1),
       ),
     );
   }

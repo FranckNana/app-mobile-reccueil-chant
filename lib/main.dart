@@ -10,7 +10,6 @@ import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';
 import 'package:song_app/screens/prog_screen.dart';
-import 'package:song_app/screens/search_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async{
@@ -45,10 +44,6 @@ class AppRoutes {
       page: () => HomeScreen()
     ),
     GetPage(
-      name: AppLinks.SEARCH,
-      page: () => SearchScreen()
-    ),
-    GetPage(
       name: AppLinks.SONGLISTVIEW,
       page: () => SongListCathegorieScreen()
     ),
@@ -77,7 +72,6 @@ class AppRoutes {
 
 class AppLinks {
   static const String HOME = "/";
-  static const String SEARCH = "/search";
   static const String SONGLISTVIEW = "/songListView";
   static const String PARTITIONS = "/partitiions";
   static const String INFOS = "/informations";

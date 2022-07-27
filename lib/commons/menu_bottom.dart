@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:song_app/screens/home_screen.dart';
 import 'package:song_app/screens/information_screen.dart';
 import 'package:song_app/screens/partition_screen.dart';
-import 'package:song_app/screens/search_screen.dart';
 
 class MenuBottom extends StatelessWidget {
   int selectedPage = 0;
@@ -19,7 +18,6 @@ class MenuBottom extends StatelessWidget {
       // ignore: prefer_const_literals_to_create_immutables
       items: [
         TabItem(icon: Icons.home_sharp, title: 'Accueil'),
-        TabItem(icon: Icons.search_sharp, title: 'Recherche'),
         TabItem(icon: Icons.music_note_sharp, title: 'Partitions'),
         TabItem(icon: Icons.info_sharp, title: 'Informations'),
       ],
@@ -32,12 +30,9 @@ class MenuBottom extends StatelessWidget {
             Get.off(HomeScreen());
             break;
           case 1:
-            Get.off(SearchScreen());
-            break;
-          case 2:
             Get.off(PartitionScreen());
             break;
-          case 3:
+          case 2:
             Get.off(InformationScreen());
             break;
         }
