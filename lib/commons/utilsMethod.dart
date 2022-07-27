@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,31 +13,34 @@ class Utils {
 
   Widget dataView(double sizeX, double sizeY, dynamic data){
     return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
       width: sizeX,
       height: sizeY*3/4,
       child: GridView.count(
         scrollDirection: Axis.vertical,
         crossAxisCount: 2,
         children: _createCardView(partitions: data),
-        mainAxisSpacing: 5.0,
-        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 3.0,
+        crossAxisSpacing: 3.0,
       ),
     );
   }
 
+
   Widget singleDataView(double sizeX, double sizeY, dynamic data){
-    return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
-      width: sizeX,
-      height: sizeY/2 ,
-      child: GridView.count(
-        scrollDirection: Axis.horizontal,
-        crossAxisCount: 1,
-        children: _createCardView(partitions: data),
-        mainAxisSpacing: 5.0,
-        crossAxisSpacing: 5.0,
-      ),
+    var partitionName = data[0].name.length > 34 ? data[0].name.substring(13, 26)+'...' : data[0].name.substring(13);
+    return Column(
+        children: [
+          secondCustomCard(data[0]),
+          Text(
+            partitionName,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ]
     );
   }
 
@@ -69,47 +72,76 @@ class Utils {
     List<Widget> partitionsToSend = [];
 
     Widget partition;
-    for (var p in partitions) {  
+    for (var p in partitions) {
+      var partitionName = p.name.length > 34 ? p.name.substring(13, 26)+'...' : p.name.substring(13);  
       partition = InkWell(
-        child: customCard(p),
+        child: Column(
+          children: [
+            customCard(p),
+            Text(
+              partitionName,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ]
+        ),
         onTap: () {
-          Get.to(PdfViewScreen(link:p.url, titre: p.name,));
+          Get.to(PdfViewScreen(link:p.url, titre: partitionName));
         },
       );
       partitionsToSend.add(partition);
     }
     return partitionsToSend;
   }
+  
 
   Widget customCard(Partition p){
+    
     return Card(
-      elevation: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          image: const DecorationImage(
-            image:AssetImage('images/pdf.png'),
-            fit: BoxFit.fitHeight, 
-          ),
-          borderRadius: BorderRadius.circular(8.0),
+      elevation: 18.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0))
+      ),
+      child: Image.asset(
+          'images/pdf.png',
+          fit: BoxFit.cover,
+          height: 135.0,
+          width: 160.0,
         ),
+        clipBehavior: Clip.antiAlias,
+      );
+  }
+
+
+  Widget secondCustomCard(Partition p){
+    var partitionName = p.name.length > 34 ? p.name.substring(13, 26)+'...' : p.name.substring(13); 
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.only(top: 15.0),
         child: SizedBox(
-          child: Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Text(
-                p.name,
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic
-                ),
+          width: 300,
+          height: 200,
+          child: Card(
+            elevation: 18.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Image.asset(
+                'images/pdf.png',
+                fit: BoxFit.cover,
+                height: 160.0,
+                width: 160.0,
               ),
-            ],
-          )
+              clipBehavior: Clip.antiAlias,
+            ),
         ),
       ),
+        onTap: () {
+          Get.to(PdfViewScreen(link:p.url, titre: partitionName));
+        },
     );
   }
 
@@ -130,6 +162,7 @@ class Utils {
   }
 
   Widget songLine({String id="", required Song song}){
+    song.title = song.title.length > 13 ? song.title.substring(0, 13)+'...' : song.title;
 
     return TextButton(
       child: ListTile(

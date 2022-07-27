@@ -19,7 +19,7 @@ class PartitionsData{
       for(var d in data){
         Partition partition = Partition(
                                 date: d['date'], 
-                                name: d['name'].length > 34 ? '${d['name'].substring(13, 34)}...' : d['name'].substring(13),  
+                                name: d['name'],  
                                 url: d['url']);
         setPartitionsList(partition);
       }

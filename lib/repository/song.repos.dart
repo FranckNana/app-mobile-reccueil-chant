@@ -20,7 +20,7 @@ class SongData {
         if(d['type']==type){
           Song song = Song(
                     type: d['type'], 
-                    title: d['title'].length > 13 ? '${d['title'].substring(0, 13)}...' : d['title'], 
+                    title: d['title'], 
                     refrain: d['refrain'], 
                     couplet: d['couplet'] ?? []
                   );
