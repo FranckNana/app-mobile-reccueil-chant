@@ -13,15 +13,15 @@ class Utils {
 
   Widget dataView(double sizeX, double sizeY, dynamic data){
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       width: sizeX,
       height: sizeY*3/4,
       child: GridView.count(
         scrollDirection: Axis.vertical,
         crossAxisCount: 2,
         children: _createCardView(partitions: data),
-        mainAxisSpacing: 3.0,
-        crossAxisSpacing: 3.0,
+        mainAxisSpacing: 5.0,
+        crossAxisSpacing: 10.0,
       ),
     );
   }
@@ -75,18 +75,21 @@ class Utils {
     for (var p in partitions) {
       var partitionName = p.name.length > 34 ? p.name.substring(13, 26)+'...' : p.name.substring(13);  
       partition = InkWell(
-        child: Column(
-          children: [
-            customCard(p),
-            Text(
-              partitionName,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              customCard(p),
+              Text(
+                partitionName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ]
+            ],
+          ),
         ),
         onTap: () {
           Get.to(PdfViewScreen(link:p.url, titre: partitionName));
@@ -108,7 +111,7 @@ class Utils {
       child: Image.asset(
           'images/pdf.png',
           fit: BoxFit.cover,
-          height: 135.0,
+          height: 130.0,
           width: 160.0,
         ),
         clipBehavior: Clip.antiAlias,

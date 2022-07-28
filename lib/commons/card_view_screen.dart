@@ -22,8 +22,8 @@ class CardViewScreen extends StatelessWidget {
         scrollDirection: Axis.vertical,
         crossAxisCount: 2,
         children: _createCardView(map),
-        mainAxisSpacing: 15.0,
-        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 5.0,
+        crossAxisSpacing: 10.0,
       ),
     );
   }
@@ -46,35 +46,33 @@ List<Widget> _createCardView(Map<String, String> map){
         }
         
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Card(
-            elevation: 18.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(), //desactiver le scroll
+        child: Column(
+          children: [
+            Card(
+              elevation: 18.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+              ),
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.cover,
+                height: 130.0,
+                width: 160.0,
+              ),
+              clipBehavior: Clip.antiAlias,
             ),
-            child: Image.asset(
-              imageUrl,
-              fit: BoxFit.cover,
-              height: 135.0,
-              width: 160.0,
-            ),
-            clipBehavior: Clip.antiAlias,
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0),
-            child: Text(
+            Text(
               categorie,
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-          ),
-        ]
+            ),                                        
+          ],
+        ),
       ),
     );
     images.add(image);

@@ -31,7 +31,14 @@ class HomeScreen extends StatelessWidget {
 
       child: Scaffold(
           appBar: AppBar(
-            title: Text('Chants religieux'),
+            title: Center(
+              child: Text(
+                'Chants religieux',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             automaticallyImplyLeading: false,
           ),
           body: Container(

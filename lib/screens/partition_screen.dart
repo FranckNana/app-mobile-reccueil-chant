@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, avoid_function_literals_in_foreach_calls
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/menu_bottom.dart';
@@ -8,6 +9,7 @@ import 'package:song_app/commons/utilsMethod.dart';
 import 'package:song_app/model/partition.model.dart';
 import 'package:song_app/repository/partition.repos.dart';
 import 'package:song_app/screens/home_screen.dart';
+import 'package:song_app/screens/takePicture_Screen.dart';
 
 class PartitionScreen extends StatefulWidget {
   const PartitionScreen({ Key? key }) : super(key: key);
@@ -49,10 +51,11 @@ class _PartitionScreenState extends State<PartitionScreen> {
           child: Column(
             children: [
               SearchForm(sizeX: sizeX, sizeY: sizeY, isPartition:true, parentcontext: context),
-              futureBuilder(sizeX, sizeY)
+              futureBuilder(sizeX, sizeY),
             ]
           ),
         ),
+        floatingActionButton : myFoatingButton(),
         bottomNavigationBar: MenuBottom(selectedPage:1),
       ),
     );
@@ -95,6 +98,19 @@ class _PartitionScreenState extends State<PartitionScreen> {
           }
         }
       );
+  }
+
+  Widget myFoatingButton(){
+    return FloatingActionButton(
+      elevation: 18.0,
+      onPressed: () async{
+        final cameras = await availableCameras();
+        final firstCamera = cameras.first;
+        Get.to(TakePictureScreen(camera: firstCamera));
+      },
+      backgroundColor: const Color(0xFF33691E),
+      child: const Icon(Icons.camera_alt_sharp),
+    );
   }
   
 
