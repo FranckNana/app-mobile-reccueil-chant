@@ -1,94 +1,168 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe, prefer_typing_uninitialized_variables
+
 import 'dart:io';
 
-import 'package:camera/camera.dart';
+import 'package:custom_alert_dialog_box/custom_alert_dialog_box.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
+import 'package:song_app/model/partition.model.dart';
+import 'package:song_app/repository/partition.repos.dart';
+import 'package:song_app/screens/partition_screen.dart';
 
-// A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
-  
-  const TakePictureScreen({required this.camera ,Key? key }): super(key: key);
+  const TakePictureScreen({Key? key, this.title}) : super(key: key);
 
-  final CameraDescription camera;
+  final String? title;
 
   @override
-  TakePictureScreenState createState() => TakePictureScreenState();
+  _TakePictureScreen createState() => _TakePictureScreen();
 }
 
-class TakePictureScreenState extends State<TakePictureScreen> {
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
+class _TakePictureScreen extends State<TakePictureScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final myController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = CameraController(
-      widget.camera,
-      ResolutionPreset.medium,
+  var _image;
+
+  Future getImage(ImgSource source) async {
+    var image = await ImagePickerGC.pickImage(
+      enableCloseButton: true,
+      closeIcon: const Icon(
+        Icons.close,
+        color: Colors.red,
+        size: 12,
+      ),
+      context: context,
+      source: source,
+      barrierDismissible: true,
+      cameraIcon: const Icon(
+        Icons.camera_alt,
+        color: Colors.red,
+      ), //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
+      cameraText: const Text(
+        "From Camera",
+        style: TextStyle(color: Colors.red),
+      ),
+      galleryText: const Text(
+        "From Gallery",
+        style: TextStyle(color: Colors.blue),
+      )
     );
-    _initializeControllerFuture = _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Prendre une photo')),
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(_controller);
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      appBar: AppBar(
+        title: const Text("Ma galerie"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await _initializeControllerFuture;
-
-            final image = await _controller.takePicture();
-
-            if (!mounted) return;
-
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  imagePath: image.path,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 300,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        //border: InputBorder.none,
+                        hintText: 'Ajouter un titre',
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ecrivez quelque chose...';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            );
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: const Icon(Icons.camera_alt),
+                SizedBox(
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () => getImage(ImgSource.Gallery),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                    ),
+                    child: Text(
+                      "From Gallery".toUpperCase(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () => getImage(ImgSource.Camera),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple,
+                    ),
+                    child: Text(
+                      "From Camera".toUpperCase(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: ElevatedButton(
+                    onPressed: () => getImage(ImgSource.Both),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                    ),
+                    child: Text(
+                      "Both".toUpperCase(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          if (_image!=null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Sauvegarde terminée')
+                              ),
+                            );
+                            PartitionsData().uploadFile(File(_image.path));
+                            Get.off(const PartitionScreen());
+                          } else {
+                            await CustomAlertDialogBox.showCustomAlertBox(
+                                context: context,
+                                willDisplayWidget: const Text('vous n\'avez pas choisi d\'image'),
+                            );
+                          }
+                        }
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  ),
+                ),
+                _image != null ? Padding(
+                  padding: const EdgeInsets.only(top: 20.0, left: 30, right: 30,),
+                  child: Image.file(
+                    File(_image.path)
+                  )
+                ) : Container(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
-  } 
 
-}
-
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPictureScreen({required this.imagePath ,Key? key }): super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Afficher la photo')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Image.file(
-        File(imagePath),
-      ),
-    );
   }
+
 }

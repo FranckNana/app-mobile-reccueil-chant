@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors, constant_identifier_names
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:song_app/commons/pdfview_screen.dart';

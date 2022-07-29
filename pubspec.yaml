@@ -36,9 +36,9 @@ dependencies:
   firebase_database: ^9.0.7
   search_page: ^2.0.0+1
   syncfusion_flutter_pdfviewer: ^20.2.39-beta
-  camera:
-  path_provider:
-  path:
+  image_picker_gallery_camera: ^0.2.2
+  custom_alert_dialog_box: ^1.0.2
+  date_format: ^2.0.6
 
 
   # The following adds the Cupertino Icons font to your application.
