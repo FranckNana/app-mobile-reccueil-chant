@@ -6,7 +6,6 @@ import 'package:custom_alert_dialog_box/custom_alert_dialog_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
-import 'package:song_app/model/partition.model.dart';
 import 'package:song_app/repository/partition.repos.dart';
 import 'package:song_app/screens/partition_screen.dart';
 
@@ -72,8 +71,8 @@ class _TakePictureScreen extends State<TakePictureScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
                     child: TextFormField(
+                      controller: myController,
                       decoration: const InputDecoration(
-                        //border: InputBorder.none,
                         hintText: 'Ajouter un titre',
                       ),
                       validator: (String? value) {
@@ -136,7 +135,7 @@ class _TakePictureScreen extends State<TakePictureScreen> {
                                 content: Text('Sauvegarde terminée')
                               ),
                             );
-                            PartitionsData().uploadFile(File(_image.path));
+                            await PartitionsData().saveFile(File(_image.path), myController.text);
                             Get.off(const PartitionScreen());
                           } else {
                             await CustomAlertDialogBox.showCustomAlertBox(

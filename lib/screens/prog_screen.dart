@@ -172,7 +172,7 @@ class _ProgrammeScreen extends State<ProgrammeScreen> {
           ),
         ),
         onTap: () {
-          Get.to(PdfViewScreen(link:p.url, titre: p.name,));
+          Get.to(PdfViewScreen(file: p));
         },
       );
       programmeToSend.add(programme);

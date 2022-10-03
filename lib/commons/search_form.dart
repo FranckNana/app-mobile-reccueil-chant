@@ -81,7 +81,7 @@ class _SearchFormState extends State<SearchForm> {
 
   Future<void> searchInPartitions() async {
     PartitionsData p = PartitionsData();
-    List<Partition> partitions = await p.getPartition();
+    List<dynamic> partitions = await p.getPartition();
     
     ScaffoldMessenger.of(widget.parentcontext).showSnackBar(
       const SnackBar(
@@ -96,7 +96,7 @@ class _SearchFormState extends State<SearchForm> {
           showSearch(
             query: myController.text,
             context: widget.parentcontext,
-            delegate: SearchPage<Partition>(
+            delegate: SearchPage<dynamic>(
               //onQueryUpdate: (s) => print(s),
               items: partitions,
               searchLabel: 'Rechercher vos partitions',

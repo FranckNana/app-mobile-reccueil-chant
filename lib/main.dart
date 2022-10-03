@@ -56,7 +56,7 @@ class AppRoutes {
     ),
     GetPage(
       name: AppLinks.PDFVIEW,
-      page: () => PdfViewScreen(link: '', titre: '',)
+      page: () => PdfViewScreen(file: null)
     ),
     GetPage(
       name: AppLinks.PROGRAMME,

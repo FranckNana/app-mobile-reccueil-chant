@@ -68,7 +68,7 @@ class Utils {
     );
   }
 
-  List<Widget> _createCardView({required List<Partition> partitions}) {
+  List<Widget> _createCardView({required List<dynamic> partitions}) {
     List<Widget> partitionsToSend = [];
 
     Widget partition;
@@ -92,7 +92,7 @@ class Utils {
           ),
         ),
         onTap: () {
-          Get.to(PdfViewScreen(link:p.url, titre: partitionName));
+          Get.to(PdfViewScreen(file: p));
         },
       );
       partitionsToSend.add(partition);
@@ -143,7 +143,7 @@ class Utils {
         ),
       ),
         onTap: () {
-          Get.to(PdfViewScreen(link:p.url, titre: partitionName));
+          Get.to(PdfViewScreen(file: p));
         },
     );
   }

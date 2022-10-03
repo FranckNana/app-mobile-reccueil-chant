@@ -19,7 +19,7 @@ class PartitionScreen extends StatefulWidget {
 
 class _PartitionScreenState extends State<PartitionScreen> {
 
-  late Future<List<Partition>> _partitions;
+  late Future<List<dynamic>> _partitions;
   
   @override
   initState() {

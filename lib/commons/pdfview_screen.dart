@@ -4,17 +4,32 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // ignore: must_be_immutable
 class PdfViewScreen extends StatelessWidget {
-  late String link;
-  late String titre;
-  PdfViewScreen({required this.link, required this.titre, Key? key}) : super(key: key);
+  late dynamic file;
+  PdfViewScreen({required this.file, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( 
-        title: Text(titre),
+        title: Text(file.name),
       ),
-      body: SfPdfViewer.network(link)
+      body: viewPartition(file)
     );
   }
+
+  Widget viewPartition(dynamic file){
+    if(file.name.toUpperCase().contains('.pdf')){
+      return SfPdfViewer.network(file.url);
+    }else{
+      return Image.network(
+        file.url,
+        fit: BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
+        alignment: Alignment.center,
+      );
+    }
+  }
+
+
 }
